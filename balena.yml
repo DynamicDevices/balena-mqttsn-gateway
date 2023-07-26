@@ -1,0 +1,18 @@
+name: mqttsn-gateway
+description: >-
+  a block implementing the Eclipse Paho MQTT-SN gateway
+version: 1.0.0
+type: sw.block
+assets:
+  repository:
+    type: blob.asset
+    data:
+      url: 'https://github.com/DynamicDevices/balena-mqttsn-gateway-block.git'
+  logo:
+    type: blob.asset
+    data:
+      url: 'https://raw.githubusercontent.com/balenablocks/browser/master/logo.png'
+data:
+  defaultDeviceType: raspberrypi4-64
+  supportedDeviceTypes:
+    - raspberrypi4-64

@@ -1,0 +1,7 @@
+version: '2'
+
+services:
+   mqttsn-gateway:
+     build: ./mqttsn-gateway
+     ports:
+       - 10000:10000
