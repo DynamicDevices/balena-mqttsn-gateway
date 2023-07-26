@@ -1,5 +1,5 @@
 
-# Balena block upport for Paho MQTT-SN Gateway
+# Balena block support for Paho MQTT-SN Gateway
 
 This builds all SENSORNET types of MQTT-SNGateway 
 
