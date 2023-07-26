@@ -5,3 +5,5 @@ services:
      build: ./mqttsn-gateway
      ports:
        - 10000:10000
+# Put it on the host network until we work out custom network configurations
+     network_mode: host

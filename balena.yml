@@ -7,12 +7,21 @@ assets:
   repository:
     type: blob.asset
     data:
-      url: 'https://github.com/DynamicDevices/balena-mqttsn-gateway-block.git'
+      url: 'https://github.com/DynamicDevices/balena-mqttsn-gateway'
   logo:
     type: blob.asset
     data:
       url: 'https://raw.githubusercontent.com/balenablocks/browser/master/logo.png'
 data:
+  applicationEnvironmentVariables:
+    - SENSORNET: udp
+    - BROKER_NAME: mqtt.eclipseprojects.io
+    - BROKER_PORT: 1883
+    - BROKER_SECURE_PORT: 8883
+    - GATEWAY_PORT: 10000
+    - GATEWAY_IPV6_PORT: 10000
   defaultDeviceType: raspberrypi4-64
   supportedDeviceTypes:
     - raspberrypi4-64
+    - raspberrypi4
+    - raspberrypi3

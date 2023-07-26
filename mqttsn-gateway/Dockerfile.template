@@ -5,7 +5,7 @@ RUN apt update && apt -y install git cmake libbluetooth-dev
 RUN git clone https://github.com/eclipse/paho.mqtt-sn.embedded-c.git 
 RUN cd paho.mqtt-sn.embedded-c && git checkout 59797127e7f3d024de576555cd4232c68e874ac6
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.udp &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.udp
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.udp &&  cp ../build.gateway/MQTTSNPacket/src/libMQTTSNPacket.so ~/ && cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.udp
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp6
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.udp6 &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.udp6
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh dtls
@@ -18,16 +18,17 @@ RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh loralink
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.loralink &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.loralink
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh rfcomm
 RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.rfcomm &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.rfcomm
-#RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/*.conf ~/
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/*.conf ~/
 
 RUN cd ~ && pwd && ls -la
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:run as run
 
-COPY --from=build /root/MQTT-SN* ~/
-#COPY --from=build /root/*.conf ~/
+COPY --from=build /root/MQTT-SN* ./
+COPY --from=build /root/*.so ./
+#COPY --from=build /root/*.conf .
 
-COPY run-mqtt-sngateway.sh ~
-COPY *.conf ~/
+COPY run-mqtt-sngateway.sh ./
+COPY *.conf.in ./
 
 CMD ./run-mqtt-sngateway.sh
