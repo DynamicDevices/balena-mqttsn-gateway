@@ -1,3 +1,3 @@
 
-echo Blah
+./MQTT-SNGateway.udp
 
