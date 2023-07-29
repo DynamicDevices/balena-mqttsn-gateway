@@ -20,6 +20,7 @@ data:
     - BROKER_SECURE_PORT: 8883
     - GATEWAY_PORT: 10000
     - GATEWAY_IPV6_PORT: 10000
+    - MULTICAST_IPV6_IF: eth0
   defaultDeviceType: raspberrypi4-64
   supportedDeviceTypes:
     - raspberrypi4-64
