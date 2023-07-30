@@ -6,7 +6,7 @@ sed -i "s/ENV_BROKER_SECURE_PORT/${BROKER_SECURE_PORT}/" gateway.conf
 sed -i "s/ENV_GATEWAY_PORT/${GATEWAY_PORT}/" gateway.conf
 sed -i "s/ENV_GATEWAY_IPV6_PORT/${GATEWAY_IPV6_PORT}/" gateway.conf
 sed -i "s/ENV_MULTICAST_IPV6_IF/${MULTICAST_IPV6_IF}/" gateway.conf
-sed -i "s/ENV_MULTICAST_HOPS/${MULTICAST_HOPS}/" gateway.conf
+sed -i "s/ENV_MULTICAST_HOPS/${MULTICAST_IPV6_HOPS}/" gateway.conf
 
 export LD_LIBRARY_PATH=.
 
