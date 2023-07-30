@@ -69,7 +69,7 @@ GatewayIPv6PortNo=ENV_GATEWAY_IPV6_PORT
 MulticastIPv6PortNo=1883
 MulticastIPv6=ff1e:feed:caca:dead::1
 MulticastIPv6If=ENV_MULTICAST_IPV6_IF
-MulticastHops=1
+MulticastHops=ENV_MULTICAST_HOPS
 
 #
 # DTLS | DTLS6  

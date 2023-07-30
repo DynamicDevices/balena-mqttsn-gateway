@@ -21,6 +21,7 @@ data:
     - GATEWAY_PORT: 10000
     - GATEWAY_IPV6_PORT: 10000
     - MULTICAST_IPV6_IF: eth0
+    - MULTICAST_HOPS: 3
   defaultDeviceType: raspberrypi4-64
   supportedDeviceTypes:
     - raspberrypi4-64

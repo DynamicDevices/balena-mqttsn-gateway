@@ -20,7 +20,9 @@ The following environment variables need to be set within the Balena environment
 | ENV_BROKER_SECURE_PORT | BrokerSecurePortNo |
 | ENV_GATEWAY_PORT | GatewayPortNo |
 | ENV_GATEWAY_IPV6_PORT | GatewayIPv6PortNo |
-| $ENV_MULTICAST_IPV6_IF | MulticastIPv6If |
+| ENV_MULTICAST_IPV6_IF | MulticastIPv6If |
+| ENV_MULTICAST_HOPS | MulticastHops |
+
 # Testing
 
 You can use the code here to publish and subscribet to messages flowing through the MQTT-SN broker
