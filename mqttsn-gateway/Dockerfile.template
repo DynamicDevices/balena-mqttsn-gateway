@@ -1,32 +1,43 @@
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:build as build
 
+#
+# --- BEGIN MQTT-SNGATEWAY
+#
+# TODO: We put MQTT-SNGateway in this container as I haven't worked out how to route mesh packets from wpan0 between containers
 RUN apt update && apt -y install git cmake libbluetooth-dev
 
-RUN git clone https://github.com/eclipse/paho.mqtt-sn.embedded-c.git 
-RUN cd paho.mqtt-sn.embedded-c && git checkout 59797127e7f3d024de576555cd4232c68e874ac6
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.udp &&  cp ../build.gateway/MQTTSNPacket/src/libMQTTSNPacket.so ~/ && cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.udp
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp6
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.udp6 &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.udp6
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh dtls
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.dtls &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.dtls
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh dtls6
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.dtls6 &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.dtls6
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh xbee
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.xbee &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.xbee
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh loralink
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.loralink &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.loralink
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh rfcomm
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway ~/MQTT-SNGateway.rfcomm &&  cp ./bin/MQTT-SNLogmonitor ~/MQTT-SNLogmonitor.rfcomm
-RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/*.conf ~/
+#RUN git clone https://github.com/eclipse/paho.mqtt-sn.embedded-c.git 
+#RUN cd paho.mqtt-sn.embedded-c && git checkout 59797127e7f3d024de576555cd4232c68e874ac6
 
-RUN cd ~ && pwd && ls -la
+# AJL - Use my fork with UDP6 broadcast/multicast fix
+WORKDIR /app
+RUN git clone https://github.com/DynamicDevices/paho.mqtt-sn.embedded-c.git -b ajl/fix-debug-ipv6-addr-output
+RUN cd paho.mqtt-sn.embedded-c && git checkout bd99ee2
+
+# Enable DEBUG output
+#RUN sed -i 's|//#define DEBUG_MQTTSN |#define DEBUG_MQTTSN|' paho.mqtt-sn.embedded-c/MQTTSNGateway/src/MQTTSNGWDefines.h
+#RUN sed -i 's|//#define DEBUG_NW |#define DEBUG_NW|' paho.mqtt-sn.embedded-c/MQTTSNGateway/src/MQTTSNGWDefines.h
+
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.udp &&  cp ../build.gateway/MQTTSNPacket/src/libMQTTSNPacke>
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh udp6
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.udp6 &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.>
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh dtls
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.dtls &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.>
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh dtls6
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.dtls6 &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor>
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh xbee
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.xbee &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonitor.>
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh loralink
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.loralink &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmoni>
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && ./build.sh rfcomm
+RUN cd paho.mqtt-sn.embedded-c/MQTTSNGateway && cp ./bin/MQTT-SNGateway /app/MQTT-SNGateway.rfcomm &&  cp ./bin/MQTT-SNLogmonitor /app/MQTT-SNLogmonito>
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:run as run
 
-COPY --from=build /root/MQTT-SN* ./
-COPY --from=build /root/*.so ./
-#COPY --from=build /root/*.conf .
+COPY --from=build /app/MQTT-SN* ./
+COPY --from=build /app/*.so ./
+#COPY --from=build /app/*.conf .
 
 COPY run-mqtt-sngateway.sh ./
 COPY *.conf.in ./

@@ -11,6 +11,7 @@ The following environment variables need to be set within the Balena environment
 
 | Balena Variable | MQTT-SNGateway build |
 | --------------- | ------- |
+| RUN_MQTT_SNGATEWAY | Whether to start up the gateway application |
 | SENSORNET       |  [udp (default) / udp6 / xbee / loralink / rfcomm / dtls / dtls6] |
 
 | Balena Variable | gateway.conf Setting |
@@ -19,8 +20,9 @@ The following environment variables need to be set within the Balena environment
 | ENV_BROKER_PORT | BrokerPortNo |
 | ENV_BROKER_SECURE_PORT | BrokerSecurePortNo |
 | ENV_GATEWAY_PORT | GatewayPortNo |
-| ENV_GATEWAY_IPV6_PORT | GatewayIPv6PortNo |
-| ENV_MULTICAST_IPV6_IF | MulticastIPv6If |
+| ENV_MULTICAST_IPV6_PORT | GatewayIPv6PortNo |
+| ENV_MULTICAST_IPV6 | MULTICAST_IPV6 |
+| ENV_MULTICAST_IPV6_IF | MulticastIPv6If | 
 | ENV_MULTICAST_HOPS | MulticastHops |
 
 # Testing
