@@ -5,5 +5,18 @@ services:
      build: ./mqttsn-gateway
      ports:
        - 10000:10000
-# Put it on the host network until we work out custom network configurations
-     network_mode: host
+     networks:
+       customnet:
+         ipv4_address: 172.28.0.2
+         ipv6_address: 2001:3984:3989::20
+
+networks:
+  customnet:
+    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.28.0.0/14
+        gateway: 172.28.0.1
+      - subnet: 2001:3984:3989::/64
+        gateway: 2001:3984:3989::1
