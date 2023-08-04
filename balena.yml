@@ -14,7 +14,7 @@ assets:
       url: 'https://raw.githubusercontent.com/balenablocks/browser/master/logo.png'
 data:
   applicationEnvironmentVariables:
-  - RUN_MQTT_SNGATEWAY: 1
+    - RUN_MQTT_SNGATEWAY: 1
     - SENSORNET: udp6
     - BROKER_NAME: mqtt.eclipseprojects.io
     - BROKER_PORT: 1883
